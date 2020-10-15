@@ -23,11 +23,13 @@ def count_infected(city):
     Returns (int): count of the number of people who are
       currently infected
     '''
-
-    # YOUR CODE HERE
+    num_infected = 0
+    for i in range(0, len(city)):
+      if city[i][0] == "I":
+        num_infected +=1
 
     # REPLACE -1 WITH THE APPROPRIATE INTEGER
-    return -1
+    return num_infected
 
 
 def has_an_infected_neighbor(city, position):
@@ -47,10 +49,33 @@ def has_an_infected_neighbor(city, position):
     # is susceptible to infection.
     assert city[position] == "S"
 
+    infected_neighbor = None
+    
+    if len(city) >= 2:
+      if (position >= 1) and (position < len(city)-1):
+        neighbors = [city[position -1], city[position], city[position+1]]
+      elif position == 0:
+        neighbors = [city[position], city[position+1]]
+      else:
+        neighbors = [city[position -1], city[position]]
+
+      if count_infected(neighbors) >= 1:
+        infected_neighbor = True
+      else:
+        infected_neighbor = False
+    else:
+      neighbors = city
+      if count_infected(neighbors) >= 1:
+        infected_neighbor = True
+      else:
+        infected_neighbor = False
+    
+  
+        
     # YOUR CODE HERE
 
     # REPLACE None WITH THE APPROPRIATE BOOLEAN VALUE
-    return None
+    return infected_neighbor
 
 
 def advance_person_at_position(city, position, days_contagious):
@@ -65,12 +90,26 @@ def advance_person_at_position(city, position, days_contagious):
 
     Returns: (string) disease state of the person after one day
     '''
-
     # YOUR CODE HERE
-
+    status = None
+    if city[position] == "S":
+      if has_an_infected_neighbor(city, position) == True :
+        status = "I0"
+      else:
+        status = "S"
+    elif city[position] == "R":
+      status = "R"
+    elif city[position] == "V":
+      status = "V"
+    else:
+      days_infected = None
+      if int(city[position][1:]) + 1 < days_contagious:
+        days_infected = int(city[position][1:]) + 1
+        status = "I{:1d}".format(days_infected)
+      else:
+        status = "R"
     # REPLACE None WITH THE APPROPRIATE STRING
-    return None
-
+    return status
 
 def simulate_one_day(starting_city, days_contagious):
     '''
@@ -84,18 +123,20 @@ def simulate_one_day(starting_city, days_contagious):
     Returns:
       new_city (list): disease state of the city after one day
     '''
-
+    new_city = []
+    for i in range(0,len(starting_city)):
+      new_city.append(advance_person_at_position(starting_city, i, days_contagious))
     # YOUR CODE HERE
 
     # REPLACE None WITH THE APPROPRIATE LIST OF STRINGS
-    return None
+    return new_city
 
 
 def run_simulation(starting_city, days_contagious,
                    random_seed=None, vaccine_effectiveness=0.0):
     '''
     Run the entire simulation
-
+    
     Inputs:
       starting_city (list): the state of all people in the city at the
         start of the simulation
@@ -109,10 +150,19 @@ def run_simulation(starting_city, days_contagious,
     '''
 
     # YOUR CODE HERE
+    days_passed = 0
+    new_day = starting_city
+    random.seed(TEST_SEED)
+    new_day = vaccinate_city(starting_city, vaccine_effectiveness)
+
+    while count_infected(new_day) > 0:
+      new_day = vaccinate_city(new_day, vaccine_effectiveness)
+      new_day = simulate_one_day(new_day, days_contagious)
+      days_passed += 1
 
     # REPLACE (None, None) WITH THE APPROPRIATE TUPLE
     #  (city, number of days simulated)
-    return (None, None)
+    return (new_day, days_passed)
 
 
 def vaccinate_city(starting_city, vaccine_effectiveness):
@@ -128,11 +178,22 @@ def vaccinate_city(starting_city, vaccine_effectiveness):
     Returns:
       new_city (list): state of the city after vaccinating everyone in the city
     '''
-
+    
     # YOUR CODE HERE
+    new_city =[]
+    for i in range(0, len(starting_city)):
+      if starting_city[i] == "S":
+        rand = random.random()
+        if rand < vaccine_effectiveness:
+          new_city.append("V")
+        else:
+          new_city.append("S")
+      else:
+        new_city.append(starting_city[i])
+
 
     # REPLACE None WITH THE APPROPRIATE LIST OF STRINGS
-    return None
+    return new_city
 
 
 def calc_avg_days_to_zero_infections(
