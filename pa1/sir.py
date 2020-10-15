@@ -23,10 +23,7 @@ def count_infected(city):
     Returns (int): count of the number of people who are
       currently infected
     '''
-    num_infected = 0
-    for i in range(0, len(city)):
-      if city[i][0] == "I":
-        num_infected +=1
+    num_infected = len(city) - city.count("R") - city.count("S") - city.count("V")
 
     # REPLACE -1 WITH THE APPROPRIATE INTEGER
     return num_infected
@@ -152,11 +149,10 @@ def run_simulation(starting_city, days_contagious,
     # YOUR CODE HERE
     days_passed = 0
     new_day = starting_city
-    random.seed(TEST_SEED)
+    random.seed(random_seed)
     new_day = vaccinate_city(starting_city, vaccine_effectiveness)
 
     while count_infected(new_day) > 0:
-      new_day = vaccinate_city(new_day, vaccine_effectiveness)
       new_day = simulate_one_day(new_day, days_contagious)
       days_passed += 1
 
@@ -220,11 +216,19 @@ def calc_avg_days_to_zero_infections(
       infections
     '''
     assert num_trials > 0
-
+    total = num_trials
     # YOUR CODE HERE
-
+    rand = random_seed
+    sum = 0
+    while num_trials > 0:
+      days = run_simulation(starting_city, days_contagious, rand, vaccine_effectiveness)[1]
+      sum += days
+      rand += 1
+      num_trials -=1
+    
+    avg = sum/total
     # REPLACE -1.0 WITH THE APPROPRIATE FLOATING POINT VALUE
-    return -1.0
+    return avg
 
 
 ################ Do not change the code below this line #######################
