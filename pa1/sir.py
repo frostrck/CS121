@@ -1,7 +1,7 @@
 '''
 Epidemic modelling
 
-YOUR NAME
+Corry Ke
 
 Functions for running a simple epidemiological simulation
 '''
@@ -25,7 +25,6 @@ def count_infected(city):
     '''
     num_infected = len(city) - city.count("R") - city.count("S") - city.count("V")
 
-    # REPLACE -1 WITH THE APPROPRIATE INTEGER
     return num_infected
 
 
@@ -49,29 +48,27 @@ def has_an_infected_neighbor(city, position):
     infected_neighbor = None
     
     if len(city) >= 2:
-      if (position >= 1) and (position < len(city)-1):
-        neighbors = [city[position -1], city[position], city[position+1]]
+
+      if (position >= 1) and (position < len(city) - 1):
+        neighbors = [city[position - 1], city[position], city[position + 1]]
       elif position == 0:
-        neighbors = [city[position], city[position+1]]
+        neighbors = [city[position], city[position + 1]]
       else:
-        neighbors = [city[position -1], city[position]]
+        neighbors = [city[position - 1], city[position]]
 
       if count_infected(neighbors) >= 1:
         infected_neighbor = True
       else:
         infected_neighbor = False
+
     else:
+
       neighbors = city
       if count_infected(neighbors) >= 1:
         infected_neighbor = True
       else:
         infected_neighbor = False
-    
-  
-        
-    # YOUR CODE HERE
 
-    # REPLACE None WITH THE APPROPRIATE BOOLEAN VALUE
     return infected_neighbor
 
 
@@ -87,17 +84,21 @@ def advance_person_at_position(city, position, days_contagious):
 
     Returns: (string) disease state of the person after one day
     '''
-    # YOUR CODE HERE
+  
     status = None
+
     if city[position] == "S":
-      if has_an_infected_neighbor(city, position) == True :
+      if has_an_infected_neighbor(city, position) == True:
         status = "I0"
       else:
         status = "S"
+
     elif city[position] == "R":
       status = "R"
+
     elif city[position] == "V":
       status = "V"
+
     else:
       days_infected = None
       if int(city[position][1:]) + 1 < days_contagious:
@@ -105,7 +106,7 @@ def advance_person_at_position(city, position, days_contagious):
         status = "I{:1d}".format(days_infected)
       else:
         status = "R"
-    # REPLACE None WITH THE APPROPRIATE STRING
+
     return status
 
 def simulate_one_day(starting_city, days_contagious):
@@ -123,9 +124,7 @@ def simulate_one_day(starting_city, days_contagious):
     new_city = []
     for i in range(0,len(starting_city)):
       new_city.append(advance_person_at_position(starting_city, i, days_contagious))
-    # YOUR CODE HERE
 
-    # REPLACE None WITH THE APPROPRIATE LIST OF STRINGS
     return new_city
 
 
@@ -146,7 +145,6 @@ def run_simulation(starting_city, days_contagious,
       and the number of days actually simulated.
     '''
 
-    # YOUR CODE HERE
     days_passed = 0
     new_day = starting_city
     random.seed(random_seed)
@@ -156,8 +154,6 @@ def run_simulation(starting_city, days_contagious,
       new_day = simulate_one_day(new_day, days_contagious)
       days_passed += 1
 
-    # REPLACE (None, None) WITH THE APPROPRIATE TUPLE
-    #  (city, number of days simulated)
     return (new_day, days_passed)
 
 
@@ -174,8 +170,6 @@ def vaccinate_city(starting_city, vaccine_effectiveness):
     Returns:
       new_city (list): state of the city after vaccinating everyone in the city
     '''
-    
-    # YOUR CODE HERE
     new_city =[]
     for i in range(0, len(starting_city)):
       if starting_city[i] == "S":
@@ -187,8 +181,6 @@ def vaccinate_city(starting_city, vaccine_effectiveness):
       else:
         new_city.append(starting_city[i])
 
-
-    # REPLACE None WITH THE APPROPRIATE LIST OF STRINGS
     return new_city
 
 
@@ -216,18 +208,18 @@ def calc_avg_days_to_zero_infections(
       infections
     '''
     assert num_trials > 0
+
     total = num_trials
-    # YOUR CODE HERE
     rand = random_seed
     sum = 0
+
     while num_trials > 0:
       days = run_simulation(starting_city, days_contagious, rand, vaccine_effectiveness)[1]
       sum += days
       rand += 1
-      num_trials -=1
+      num_trials -= 1
     
     avg = sum/total
-    # REPLACE -1.0 WITH THE APPROPRIATE FLOATING POINT VALUE
     return avg
 
 
