@@ -6,9 +6,13 @@ def is_pythagorean_triple(a, b, c):
 
     Returns: bool
     """
-
+    triple = None
+    if a**2 + b**2 == c**2:
+        triple = True
+    else:
+        triple = False
     ### EXERCISE 1 -- Replace pass with your code
-    pass
+    return triple
 
 
 def characterize_nums(lst):
@@ -20,9 +24,20 @@ def characterize_nums(lst):
 
     Returns: (int, int, int)
     """
+    negative = 0
+    zero = 0
+    positive = 0
 
+
+    for i in range(len(lst)):
+        if lst[i] < 0:
+            negative += 1
+        elif lst[i] == 0:
+            zero += 1
+        else:
+            positive += 1
     ### EXERCISE 2 -- Replace pass with your code
-    pass
+    return (negative, zero, positive)
 
 
 def compute_matching(lst1, lst2):
@@ -38,8 +53,15 @@ def compute_matching(lst1, lst2):
     ### Leave this assertion
     assert len(lst1) == len(lst2)
 
+    match = []
+
+    for i in range(len(lst1)):
+        if lst1[i] == lst2[i]:
+            match.append(True)
+        else: 
+            match.append(False)
     ### EXERCISE 3 -- Replace pass with your code
-    pass
+    return match
 
 
 def compute_matching_indices(lst1, lst2):
@@ -54,8 +76,15 @@ def compute_matching_indices(lst1, lst2):
     ### Leave this assertion
     assert len(lst1) == len(lst2)
 
+    index = []
+
+    for i in range(len(lst1)):
+        if lst1[i] == lst2[i]:
+            index.append(i)
+        else:
+            pass
     ### EXERCISE 4 -- Replace pass with your code
-    pass
+    return index
 
 
 def destructive_negate(lst):
@@ -64,6 +93,9 @@ def destructive_negate(lst):
 
     lst: list of ints
     """
+    
+    for i in range(len(lst)):
+        lst[i] = -1 * lst[i]
 
     ### EXERCISE 5 -- Replace pass with your code
     pass
@@ -81,6 +113,21 @@ def win_lose_or_draw(board, row, col):
 
     Returns: string: "Win", "Lose", or "Draw"
     """
+    sum_row = 0 
+    sum_col = 0
+    result = None
 
+    for i in range(len(board[row])):
+        sum_row += board[row][i]
+        
+    for j in range(len(board)):
+        sum_col += board[j][col]
+
+    if sum_row > sum_col:
+        result = "Win"
+    elif sum_row == sum_col:
+        result = "Draw"
+    else: 
+        result = "Lose"
     ### EXERCISE 6 -- Replace pass with your code
-    pass
+    return result
