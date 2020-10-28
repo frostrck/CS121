@@ -131,7 +131,6 @@ def inv_doc_freq(docs):
     return inv_freq
 
 
-
 def find_salient(docs, threshold):
     '''
     Compute the salient words for each document.  A word is salient if
@@ -144,11 +143,15 @@ def find_salient(docs, threshold):
     Returns: list of sets of salient words
     '''
 
-    tf_idf = {}
+    salient_tokens = []
     idf = inv_doc_freq(docs)
     for doc in docs:
         tf = aug_freq(doc)
+        doc_salient = set()
         for token in doc:
-            tf_idf[token] = idf[token] * tf[token]
-
-    return tf_idf
+            tf_idf = idf[token] * tf[token]
+            if tf_idf > threshold:
+                doc_salient.add(token)
+        salient_tokens.append (doc_salient)
+    
+    return salient_tokens
