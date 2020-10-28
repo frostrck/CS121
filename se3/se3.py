@@ -2,8 +2,11 @@
 Short Exercises #3
 """
 
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> 3a4de35622640a9e8d697449dea84162ccf57b47
 def find_candidates_from_city(candidates, office_loc):
     """
     Given a list of candidates, construct a list of the candidate IDs
@@ -16,6 +19,7 @@ def find_candidates_from_city(candidates, office_loc):
     Returns: list of candidate IDs (strings)
     """
 
+<<<<<<< HEAD
     ID = []
 
     city, state = office_loc
@@ -23,6 +27,10 @@ def find_candidates_from_city(candidates, office_loc):
       if candidate["City"] == city and candidate["State"] == state:
         ID.append(candidate["Candidate_ID"])
     return ID
+=======
+    ### EXERCISE 1 -- Replace pass with your code
+    pass
+>>>>>>> 3a4de35622640a9e8d697449dea84162ccf57b47
 
 
 def construct_dict_from_lists(keys, values):
@@ -40,6 +48,7 @@ def construct_dict_from_lists(keys, values):
     # check for repeats in the keys
     assert len(keys) == len(set(keys))
 
+<<<<<<< HEAD
     dictionary = {}
     val = 0
     for key in keys:
@@ -48,6 +57,10 @@ def construct_dict_from_lists(keys, values):
 
     ### EXERCISE 2 -- Replace pass with your code
     return dictionary
+=======
+    ### EXERCISE 2 -- Replace pass with your code
+    pass
+>>>>>>> 3a4de35622640a9e8d697449dea84162ccf57b47
 
 
 def construct_homestate_dict(candidates):
@@ -62,10 +75,15 @@ def construct_homestate_dict(candidates):
       abbreviation (string)
     """
 
+<<<<<<< HEAD
     states = {}
     for candidate in candidates:
       states[candidate["Candidate_ID"]] = candidate["State"]
     return states
+=======
+    ### EXERCISE 3 -- Replace pass with your code
+    pass
+>>>>>>> 3a4de35622640a9e8d697449dea84162ccf57b47
 
 
 def find_unsuccessful_fund_raisers(cand_to_count, threshold):
@@ -82,11 +100,15 @@ def find_unsuccessful_fund_raisers(cand_to_count, threshold):
     Returns: list of Candidate IDs.
     """
     ### EXERCISE 4 -- Replace pass with your code
+<<<<<<< HEAD
     unsuccessful = []
     for cand in cand_to_count:
       if cand_to_count[cand] < threshold:
         unsuccessful.append(cand)
     return unsuccessful
+=======
+    pass
+>>>>>>> 3a4de35622640a9e8d697449dea84162ccf57b47
 
 
 def construct_cands_by_state(candidates):
@@ -100,6 +122,7 @@ def construct_cands_by_state(candidates):
      list of dictionaries for candidates from that state.
     """
 
+<<<<<<< HEAD
     states = []
     for candidate in candidates:
       if candidate["State"] not in states:
@@ -115,3 +138,7 @@ def construct_cands_by_state(candidates):
 
     
     return dictionary
+=======
+    ### EXERCISE 5 -- Replace pass with your code
+    pass
+>>>>>>> 3a4de35622640a9e8d697449dea84162ccf57b47
