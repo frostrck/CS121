@@ -23,14 +23,18 @@ def count_tokens(tokens):
 
     Inputs:
         tokens: list of tokens (must be immutable)
+    
 
     Returns: dictionary that maps tokens to counts
     '''
-
-    # YOUR CODE HERE
-
-    # REPLACE {} WITH A SUITABLE RETURN VALUE
-    return {}
+    count = {}
+    for val in tokens:
+        if val not in count:
+            count[val] = 1
+        else: 
+            count[val] += 1
+    
+    return count
 
 
 def find_top_k(tokens, k):
@@ -41,6 +45,7 @@ def find_top_k(tokens, k):
         tokens: list of tokens (must be immutable)
         k: a non-negative integer
 
+
     Returns: list of the top k tokens ordered by count.
     '''
 
@@ -48,10 +53,15 @@ def find_top_k(tokens, k):
     if k < 0:
         raise ValueError("In find_top_k, k must be a non-negative integer")
 
-    # YOUR CODE HERE
+    pairs = sort_count_pairs(count_tokens(tokens).items())
 
-    # REPLACE [] WITH A SUITABLE RETURN VALUE
-    return []
+    top = []
+
+    if len(pairs) > 0:
+        for i in range(min(k, len(pairs))):
+            top.append(pairs[i][0])
+    
+    return top
 
 
 def find_min_count(tokens, min_count):
@@ -69,10 +79,57 @@ def find_min_count(tokens, min_count):
     if min_count < 0:
         raise ValueError("min_count must be a non-negative integer")
 
-    # YOUR CODE HERE
+    min = set()
+    count = count_tokens(tokens)
+    for key in count:
+        if count[key] >= min_count:
+            min.add(key)
 
-    # REPLACE set() WITH A SUITABLE RETURN VALUE
-    return set()
+    return min
+
+def aug_freq(doc):
+    '''
+    Compute the augmented frequency of a term in a document among a collection of documents.
+
+    Inputs:
+        doc: a list of tokens
+    
+    Returns: dictionary of tokens and their augmented frequencies
+    '''
+    if doc == []:
+        return None
+    max = find_top_k(doc, 1)[0]
+    count = count_tokens(doc)
+    freq = {}
+    for token in doc:
+        score = 0.5 + 0.5 * (count[token]/count[max])
+        freq[token] = score
+
+    return freq
+
+def inv_doc_freq(docs):
+    '''
+    Computes the inverse document frequency of a token in a collection of documents.
+
+    Inputs:
+        docs: a collection of documents aka a list of list of tokens
+    
+    Returns: dictionary of tokens and their inverse document frequency
+    '''
+    inv_freq = {}
+    N = len(docs)
+
+    count_freq = {}
+    for doc1 in docs:
+        for token in doc1:
+            counter = 0
+            for doc2 in docs:
+                if token in doc2:
+                    counter += 1
+            count_freq[token] = counter
+            inv_freq[token] = math.log(N / count_freq[token])
+    return inv_freq
+
 
 
 def find_salient(docs, threshold):
@@ -87,7 +144,11 @@ def find_salient(docs, threshold):
     Returns: list of sets of salient words
     '''
 
-    # YOUR CODE HERE
+    tf_idf = {}
+    idf = inv_doc_freq(docs)
+    for doc in docs:
+        tf = aug_freq(doc)
+        for token in doc:
+            tf_idf[token] = idf[token] * tf[token]
 
-    # REPLACE [] WITH A SUITABLE RETURN VALUE
-    return []
+    return tf_idf
