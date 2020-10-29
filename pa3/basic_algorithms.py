@@ -102,7 +102,7 @@ def aug_freq(doc):
     count = count_tokens(doc)
     freq = {}
     for token in doc:
-        score = 0.5 + 0.5 * (count[token]/count[max])
+        score = 0.5 + 0.5 * (count[token] / count[max])
         freq[token] = score
 
     return freq
@@ -128,6 +128,7 @@ def inv_doc_freq(docs):
                     counter += 1
             count_freq[token] = counter
             inv_freq[token] = math.log(N / count_freq[token])
+            
     return inv_freq
 
 

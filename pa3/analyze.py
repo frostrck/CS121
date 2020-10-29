@@ -97,6 +97,7 @@ def find_min_count_entities(tweets, entity_desc, min_count):
     '''
 
     list_entities = generate_tokens(tweets, entity_desc)
+
     least = find_min_count(list_entities, min_count)
     
     return least
@@ -142,7 +143,7 @@ def preprocess(tweet, case, stop_words = True):
 
 def convert_ngrams(tweet, n, case, stop = True):
     '''
-    Convert a tweet to n-grams
+    Preprocess a tweet and convert to n-grams
 
     Input: 
         tweet: a tweet
