@@ -36,6 +36,32 @@ STOP_PREFIXES = ("@", "#", "http", "&amp")
 ############## Part 2 ##############
 
 # Task 2.1
+
+def generate_tokens(tweets, entity_desc):
+    '''
+    Given a list of tweets and entity_desc, generate a list of entities
+    that appear in those tweets according to entity_desc.
+
+    Inputs:
+        tweets: a list of tweets
+        entity_desc: a triple ("hashtags", "text", True),
+          ("user_mentions", "screen_name", False), etc
+    
+    Returns: list of entities with duplicates
+    '''
+    key, subkey, case = entity_desc
+    list_tokens = []
+
+    for tweet in tweets:
+        entities = tweet["entities"][key]
+        for val in entities:
+            if case is True:
+                list_tokens.append(val[subkey])
+            else:
+                list_tokens.append(val[subkey].lower())
+    
+    return list_tokens
+
 def find_top_k_entities(tweets, entity_desc, k):
     '''
     Find the k most frequently occuring entitites
@@ -49,10 +75,11 @@ def find_top_k_entities(tweets, entity_desc, k):
     Returns: list of entities
     '''
 
-    # YOUR CODE HERE
+    list_entities = generate_tokens(tweets, entity_desc)
+    
+    top_k_entities = find_top_k(list_entities, k)
 
-    # REPLACE [] WITH A SUITABLE RETURN VALUE
-    return []
+    return top_k_entities
 
 
 # Task 2.2
@@ -68,15 +95,51 @@ def find_min_count_entities(tweets, entity_desc, min_count):
 
     Returns: set of entities
     '''
-    # YOUR CODE HERE
 
-    # REPLACE set() WITH A SUITABLE RETURN VALUE
-    return set()
+    list_entities = generate_tokens(tweets, entity_desc)
+    least = find_min_count(list_entities, min_count)
+    
+    return least
 
 
 
 
 ############## Part 3 ##############
+
+def convert_tweet(tweet, case, stop_words):
+    '''
+    Takes in a tweet and convert it into a list of strings.
+
+    Inputs:
+        tweet: (dict) a single tweet
+        case(bool): whether or not we want to result to be case-sensitive
+        stop_words(bool): whether or not we want to include STOP_WORDS
+
+    Returns: list of strings
+    '''
+    words = tweet['abridged_text'].split()
+
+    convert = []
+    for word in words:
+        no_punct = word.strip(PUNCTUATION)
+        if len(no_punct) > 0:
+            convert.append(no_punct)
+    
+    if case is False:
+        for i, word in enumerate(convert):
+            convert[i] = word.lower()
+    
+    if stop_words is True:
+        for word in convert:
+            if word in STOP_WORDS:
+                convert.remove(word)
+    
+    for word in convert:
+        for stop in STOP_PREFIXES:
+            if word.startswith(stop) is True:
+                convert.remove(word)
+    
+    return convert
 
 def find_top_k_ngrams(tweets, n, case_sensitive, k):
     '''
