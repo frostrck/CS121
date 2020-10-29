@@ -140,7 +140,7 @@ def preprocess(tweet, case, stop_words = True):
 
 
 
-def convert_ngrams(tweet, n, case):
+def convert_ngrams(tweet, n, case, stop = True):
     '''
     Convert a tweet to n-grams
 
@@ -153,7 +153,7 @@ def convert_ngrams(tweet, n, case):
     Returns: list of n-tuples
     '''
 
-    convert = preprocess(tweet, case)
+    convert = preprocess(tweet, case, stop)
     ngrams = [convert[i : i + n] for i in range(len(convert) - n + 1)]
 
     for i, gram in enumerate(ngrams):
@@ -206,6 +206,7 @@ def find_min_count_ngrams(tweets, n, case_sensitive, min_count):
             all_ngrams.append(gram)
 
     min_ngrams = find_min_count(all_ngrams, min_count)
+
     return min_ngrams
 
 def find_salient_ngrams(tweets, n, case_sensitive, threshold):
@@ -221,7 +222,14 @@ def find_salient_ngrams(tweets, n, case_sensitive, threshold):
     Returns: list of sets of strings
     '''
 
-    # YOUR CODE HERE
-
-    # REPLACE [] WITH A SUITABLE RETURN VALUE
-    return []
+    all_tweets = []
+    for tweet in tweets:
+        all_ngrams = []
+        convert = convert_ngrams(tweet, n, case_sensitive, False)
+        for gram in convert:
+            all_ngrams.append(gram)
+        all_tweets.append(all_ngrams)
+    
+    salient_ngrams = find_salient(all_tweets, threshold)
+    
+    return salient_ngrams
