@@ -106,7 +106,7 @@ def find_min_count_entities(tweets, entity_desc, min_count):
 
 ############## Part 3 ##############
 
-def convert_tweet(tweet, case, stop_words = True):
+def preprocess(tweet, case, stop_words = True):
     '''
     Takes in a tweet and convert it into a list of strings.
 
@@ -119,27 +119,26 @@ def convert_tweet(tweet, case, stop_words = True):
     '''
     words = tweet['abridged_text'].split()
 
-    convert = []
-    for word in words:
-        no_punct = word.strip(PUNCTUATION)
-        if len(no_punct) > 0:
-            convert.append(no_punct)
-    
+    prepro = []
+
+    for i, word in enumerate(words):
+        words[i] = word.strip(PUNCTUATION)
+
     if case is False:
-        for i, word in enumerate(convert):
-            convert[i] = word.lower()
+        for i, word in enumerate(words):
+            words[i] = word.lower()
     
-    if stop_words is True:
-        for word in convert:
-            if word in STOP_WORDS:
-                convert.remove(word)
-    
-    for word in convert:
-        for stop in STOP_PREFIXES:
-            if word.startswith(stop) is True:
-                convert.remove(word)
-    
-    return convert
+    for word in words:
+        if len(word) > 0 and word.startswith(STOP_PREFIXES) is False:
+            if stop_words is True:
+                if word not in STOP_WORDS:
+                    prepro.append(word)
+            else:
+                prepro.append(word)
+
+    return prepro
+
+
 
 def convert_ngrams(tweet, n, case):
     '''
@@ -149,11 +148,12 @@ def convert_ngrams(tweet, n, case):
         tweet: a tweet
         n: integer
         case: boolean
+        stop: boolean, whether or not to include stop words
     
     Returns: list of n-tuples
     '''
 
-    convert = convert_tweet(tweet, case)
+    convert = preprocess(tweet, case)
     ngrams = [convert[i : i + n] for i in range(len(convert) - n + 1)]
 
     for i, gram in enumerate(ngrams):
@@ -174,13 +174,13 @@ def find_top_k_ngrams(tweets, n, case_sensitive, k):
     Returns: list of n-grams
     '''
 
-    list_ngrams = []
+    all_ngrams = []
     for tweet in tweets:
         convert = convert_ngrams(tweet, n, case_sensitive)
         for gram in convert:
-            list_ngrams.append(gram)
+            all_ngrams.append(gram)
 
-    top_k_ngrams = find_top_k(list_ngrams, k)
+    top_k_ngrams = find_top_k(all_ngrams, k)
     
     return top_k_ngrams
 
@@ -199,10 +199,14 @@ def find_min_count_ngrams(tweets, n, case_sensitive, min_count):
     Returns: set of n-grams
     '''
 
-    # YOUR CODE HERE
+    all_ngrams = []
+    for tweet in tweets:
+        convert = convert_ngrams(tweet, n, case_sensitive)
+        for gram in convert:
+            all_ngrams.append(gram)
 
-    # REPLACE () WITH A SUITABLE RETURN VALUE
-    return set()
+    min_ngrams = find_min_count(all_ngrams, min_count)
+    return min_ngrams
 
 def find_salient_ngrams(tweets, n, case_sensitive, threshold):
     '''

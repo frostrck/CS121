@@ -152,6 +152,6 @@ def find_salient(docs, threshold):
             tf_idf = idf[token] * tf[token]
             if tf_idf > threshold:
                 doc_salient.add(token)
-        salient_tokens.append (doc_salient)
+        salient_tokens.append(doc_salient)
     
     return salient_tokens
