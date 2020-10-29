@@ -106,7 +106,7 @@ def find_min_count_entities(tweets, entity_desc, min_count):
 
 ############## Part 3 ##############
 
-def convert_tweet(tweet, case, stop_words = False):
+def convert_tweet(tweet, case, stop_words = True):
     '''
     Takes in a tweet and convert it into a list of strings.
 
@@ -152,7 +152,7 @@ def convert_ngrams(tweet, n, case):
     
     Returns: list of n-tuples
     '''
-    
+
     convert = convert_tweet(tweet, case)
     ngrams = [convert[i : i + n] for i in range(len(convert) - n + 1)]
 
@@ -174,10 +174,15 @@ def find_top_k_ngrams(tweets, n, case_sensitive, k):
     Returns: list of n-grams
     '''
 
-    # YOUR CODE HERE
+    list_ngrams = []
+    for tweet in tweets:
+        convert = convert_ngrams(tweet, n, case_sensitive)
+        for gram in convert:
+            list_ngrams.append(gram)
 
-    # REPLACE [] WITH A SUITABLE RETURN VALUE
-    return []
+    top_k_ngrams = find_top_k(list_ngrams, k)
+    
+    return top_k_ngrams
 
 
 
