@@ -7,6 +7,52 @@ SIZE = 3
 Add your Board class here
 """ 
 
+
+class Board:
+    
+    def __init__(self):
+        self.board = [[' ', ' ', ' ',],[' ', ' ', ' ',] ,[' ', ' ', ' ',]]
+
+
+    def __repr__(self):
+        s = ''
+        for row in range(SIZE): 
+            s += '|' 
+            for col in range(SIZE): 
+                s += self.board[row][col] + '|' 
+            s += '\n' 
+        
+        return s
+    
+    def valid_move(self, row, col):
+        if not 0 <= row <= SIZE - 1 or not 0 <= col <= SIZE - 1:
+            return False
+        return self.board[row][col] == ' '
+    
+    def move(self, row, col, player):
+        self.board[row][col] = player.symbol
+
+    def winner(self, player):
+
+        symbol = player.symbol
+        win = False
+
+        for row in range(SIZE):
+            if self.board[row][0] == self.board[row][1] == self.board[row][2] == symbol:
+                win = True
+        
+        for col in range(SIZE):
+            if self.board[0][col] == self.board[1][col] == self.board[2][col] == symbol:
+                win = True
+        
+        if self.board[0][0] == self.board[1][1] == self.board[2][2] == symbol:
+            win = True
+        
+        if self.board[0][2] == self.board[1][1] == self.board[2][0] == symbol:
+            win = True
+
+        return win
+
 """
 DO NOT MODIFY THE CODE BELOW
 """
