@@ -7,7 +7,7 @@ Programming Assignments
 |---------------------------|----------------|-------|
 | Programming Assignment #1 |             94 |       |
 | Programming Assignment #2 |             99 |       |
-| Programming Assignment #3 | Not graded yet |       |
+| Programming Assignment #3 |             99 |       |
 | Programming Assignment #4 | Not graded yet |       |
 | Programming Assignment #5 | Not graded yet |       |
 | Programming Assignment #6 | Not graded yet |       |
@@ -50,17 +50,17 @@ Total
 ---
 
 **NOTE**: There is still ungraded work, which means the maximum
-number of possible points is currently 31.67
+number of possible points is currently 40.00
 
 ---
 
 |                         | Points Obtained | Points Possible (so far) | Maximum Points |
 |-------------------------|----------------:|-------------------------:|---------------:|
-| Programming Assignments |           16.08 |                    16.67 |             50 |
-| Short Exercises         |           10.00 |                    10.00 |             15 |
-| Timed Assessments       |            0.00 |                     0.00 |             30 |
-| Quizzes                 |            5.00 |                     5.00 |              5 |
-| **TOTAL**               |           31.08 |                    31.67 |            100 |
+| Programming Assignments |           24.33 |                       25 |             50 |
+| Short Exercises         |           10.00 |                       10 |             15 |
+| Timed Assessments       |            0.00 |                        0 |             30 |
+| Quizzes                 |            5.00 |                        5 |              5 |
+| **TOTAL**               |           39.33 |                       40 |            100 |
 
-Your total score (out of 100) is 98.16
+Your total score (out of 100) is 98.33
 

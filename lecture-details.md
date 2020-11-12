@@ -37,6 +37,9 @@
 | 3a.4 - Iterating over dictionaries                |        64 |                  2 |                    2 |       |
 | 3a.5 - Accumulation                               |        94 |                  1 |                    2 |       |
 | 3a.6 - Data structures and their performance      |       100 |                  1 |                    1 |       |
+| 3b.1 - Basic File IO                              |       100 |                  1 |                    1 |       |
+| 3b.2 - CSV Files                                  |       100 |                  1 |                    1 |       |
+| 3b.3 - JSON and other Formats                     |       100 |                  1 |                    1 |       |
 | 4.0 - Introduction                                |         0 |                    |                      |       |
 | 4.1 - Stacks                                      |       100 |                  1 |                    1 |       |
 | 4.2 - Queues                                      |       100 |                  1 |                    1 |       |
@@ -45,9 +48,9 @@
 | 4.5 - Dunder Methods                              |       100 |                  1 |                    1 |       |
 | 4.6 - Object-Oriented Modeling                    |       100 |                  1 |                    1 |       |
 | 4.7 - Class Composition                           |       100 |                  1 |                    1 |       |
-| **TOTAL**                                         |           |                 50 |                   52 |       |
+| **TOTAL**                                         |           |                 53 |                   55 |       |
 
-You scored 96.15% of the quiz questions correctly.
+You scored 96.36% of the quiz questions correctly.
 
 Since this is above 75%, you earn the full 5 points allocated to the quizzes.
 
