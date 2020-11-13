@@ -3,7 +3,7 @@ Grading report for Corry Ke (corryke21)
 Programming Assignments
 =======================
 
-|  Programming Assignment   |     Score      | Late? |
+|  Programming Assignments  |     Score      | Late? |
 |---------------------------|----------------|-------|
 | Programming Assignment #1 |             94 |       |
 | Programming Assignment #2 |             99 |       |
@@ -31,9 +31,9 @@ Short Exercises
 Timed Assessments
 =================
 
-|  Timed Assessment   |     Score      |
+|  Timed Assessments  |     Score      |
 |---------------------|----------------|
-| Timed Assessment #1 | Not graded yet |
+| Timed Assessment #1 |             99 |
 | Timed Assessment #2 | Not graded yet |
 | Timed Assessment #3 | Not graded yet |
 
@@ -50,17 +50,17 @@ Total
 ---
 
 **NOTE**: There is still ungraded work, which means the maximum
-number of possible points is currently 40.00
+number of possible points is currently 45.00
 
 ---
 
 |                         | Points Obtained | Points Possible (so far) | Maximum Points |
 |-------------------------|----------------:|-------------------------:|---------------:|
-| Programming Assignments |           24.33 |                       25 |             50 |
-| Short Exercises         |           10.00 |                       10 |             15 |
-| Timed Assessments       |            0.00 |                        0 |             30 |
-| Quizzes                 |            5.00 |                        5 |              5 |
-| **TOTAL**               |           39.33 |                       40 |            100 |
+| Programming Assignments |           24.33 |                    25.00 |             50 |
+| Short Exercises         |           10.00 |                    10.00 |             15 |
+| Timed Assessments       |            4.95 |                     5.00 |             30 |
+| Quizzes                 |            5.00 |                     5.00 |              5 |
+| **TOTAL**               |           44.28 |                    45.00 |            100 |
 
-Your total score (out of 100) is 98.33
+Your total score (out of 100) is 98.41
 
