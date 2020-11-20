@@ -51,8 +51,14 @@ class Model(object):
               original data array) used in the model.
         '''
 
-        # REPLACE pass WITH YOUR CODE
-        pass
+        self.dep_var = dataset.dependent_var
+        self.labels = dataset.labels
+        self.pred_vars = pred_vars
+        self.beta = util.linear_regression(util.prepend_ones_column(
+                dataset.training_data[:, self.pred_vars]),
+                dataset.training_data[:, self.dep_var])
+        self.R2 = self.calc_R2(dataset.training_data)
+        
 
     def __repr__(self):
         '''
@@ -63,7 +69,22 @@ class Model(object):
         # helpful string representation
         return "!!! You haven't implemented the Model __repr__ method yet !!!"
 
-    ### Additional methods here
+    def calc_R2(self, data):
+        '''
+        Calculates the R^2 value of a model.
+
+        Inputs: 
+            data: a array of data
+        
+        Returns:
+            (float) R^2 value 
+        '''
+
+        y = data[:, self.dep_var]
+        y_bar = y.mean()
+        y_hat = util.apply_beta(self.beta, util.prepend_ones_column(data[:, self.pred_vars]))
+
+        return 1 - sum((y - y_hat) ** 2) / sum((y - y_bar) ** 2)
 
 
 def compute_single_var_models(dataset):
@@ -77,8 +98,13 @@ def compute_single_var_models(dataset):
         List of Model objects, each representing a single-variable model
     '''
 
-    # Replace [] with the list of models
-    return []
+    models = []
+
+    for var in dataset.pred_vars:
+        mod = Model(dataset, [var])
+        models.append(mod)
+    
+    return models
 
 
 def compute_all_vars_model(dataset):
@@ -92,8 +118,9 @@ def compute_all_vars_model(dataset):
         A Model object that uses all the predictor variables
     '''
 
-    # Replace None with a model object
-    return None
+    mod = Model(dataset, dataset.pred_vars)
+
+    return mod
 
 
 def compute_best_pair(dataset):
@@ -107,8 +134,18 @@ def compute_best_pair(dataset):
         A Model object for the best bivariate model
     '''
 
-    # Replace None with a model object
-    return None
+    best = None 
+    R2 = 0
+   
+    for var1 in dataset.pred_vars:
+        for var2 in dataset.pred_vars:
+            if var1 != var2:
+                mod = Model(dataset, [var1, var2])
+                if mod.R2 > R2:
+                    R2 = mod.R2
+                    best = mod
+
+    return best  
 
 
 def forward_selection(dataset):
@@ -123,8 +160,30 @@ def forward_selection(dataset):
         A list (of length P) of Model objects. The first element is the
         model where K=1, the second element is the model where K=2, and so on.
     '''
-    return []
+    
+    best_vars = {}
+    best_vars[0] = []
 
+    R2 = 0
+    p = len(dataset.pred_vars)
+    best_models = []
+    
+    for i in range(1, p+1):
+        for var in dataset.pred_vars:
+            if var not in best_vars[i-1]:
+                pred = list.copy(best_vars[i-1])
+                pred.append(var)
+                mod = Model(dataset, pred)
+                if mod.R2 > R2:
+                    R2 = mod.R2
+                    best_vars[i] = pred
+
+    for i in range(1, p+1):
+        model = Model(dataset, best_vars[i])
+        best_models.append(model)
+        
+        
+    return best_models
 
 def validate_model(dataset, model):
     '''

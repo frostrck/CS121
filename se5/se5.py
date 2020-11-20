@@ -16,8 +16,7 @@ def compute_matching(x, y):
     Returns: Boolean-valued n-dimensional array with the same shape as 
              x and y
     """
-
-    pass
+    return x == y
 
 
 def compute_matching_indices(x, y):
@@ -37,8 +36,12 @@ def compute_matching_indices(x, y):
     Note that the returned array must be one-dimensional! 
 
     """
+    index = []
+    for i in range(len(x)):
+        if x[i] == y[i]:
+            index.append(i)
 
-    pass
+    return np.array(index)
 
 
 def powers(N, p):
@@ -54,7 +57,12 @@ def powers(N, p):
     Returns: an array consisting of powers of p
     """
 
-    pass
+    power = []
+    
+    for i in range(N):
+        power.append(p ** i)
+
+    return np.array(power)
 
 
 def clip_values(x, min_val=None, max_val=None):
@@ -75,8 +83,21 @@ def clip_values(x, min_val=None, max_val=None):
              to (min_val, max-val)
 
     """
+    copy = np.copy(x)
 
-    pass
+    if min_val is not None:
+        for i, val in enumerate(copy):
+            if val < min_val:
+                copy[i] = min_val
+    
+    if max_val is not None:
+        for i, val in enumerate(copy):
+            if val > max_val:
+                copy[i] = max_val
+    
+    return copy
+
+
 
 
 def find_closest_value(x, tgt_value):
@@ -95,7 +116,16 @@ def find_closest_value(x, tgt_value):
 
     """
 
-    pass
+    lst = []
+    for val in x:
+        lst.append(abs(val - tgt_value))
+    
+    dist = min(lst)
+    i = lst.index(dist)
+
+    return x[i]
+
+
 
 
 def select_row_col(x, is_row, tgt):
@@ -114,5 +144,9 @@ def select_row_col(x, is_row, tgt):
          the rows or columns as requested
     """
 
-    pass
+    if is_row == True:
+        return x[tgt,:]
+    else: 
+        return x[:, tgt]
+
 
