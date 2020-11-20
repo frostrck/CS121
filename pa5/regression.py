@@ -58,6 +58,7 @@ class Model(object):
                 dataset.training_data[:, self.pred_vars]),
                 dataset.training_data[:, self.dep_var])
         self.R2 = self.calc_R2(dataset.training_data)
+        self.R2_test_d = self.calc_R2(dataset.testing_data)
         
 
     def __repr__(self):
@@ -199,5 +200,4 @@ def validate_model(dataset, model):
         (float) An R2 value
     '''
 
-    # Replace 0.0 with the correct R2 value
-    return 0.0
+    return model.R2_test_d
