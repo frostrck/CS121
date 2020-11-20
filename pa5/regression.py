@@ -1,7 +1,7 @@
 '''
 Linear regression
 
-YOUR NAME HERE
+Corry Ke 
 
 Main file for linear regression and model selection.
 '''
@@ -58,7 +58,7 @@ class Model(object):
                 dataset.training_data[:, self.pred_vars]),
                 dataset.training_data[:, self.dep_var])
         self.R2 = self.calc_R2(dataset.training_data)
-        self.R2_test_d = self.calc_R2(dataset.testing_data)
+        self.R2_test_data = self.calc_R2(dataset.testing_data)
         
 
     def __repr__(self):
@@ -66,8 +66,6 @@ class Model(object):
         Format model as a string.
         '''
 
-        # Replace this return statement with one that returns a more
-        # helpful string representation
         return "!!! You haven't implemented the Model __repr__ method yet !!!"
 
     def calc_R2(self, data):
@@ -83,7 +81,8 @@ class Model(object):
 
         y = data[:, self.dep_var]
         y_bar = y.mean()
-        y_hat = util.apply_beta(self.beta, util.prepend_ones_column(data[:, self.pred_vars]))
+        y_hat = util.apply_beta(self.beta, 
+                util.prepend_ones_column(data[:, self.pred_vars]))
 
         return 1 - sum((y - y_hat) ** 2) / sum((y - y_bar) ** 2)
 
@@ -172,7 +171,7 @@ def forward_selection(dataset):
     for i in range(1, p+1):
         for var in dataset.pred_vars:
             if var not in best_vars[i-1]:
-                pred = list.copy(best_vars[i-1])
+                pred = best_vars[i-1].copy()
                 pred.append(var)
                 mod = Model(dataset, pred)
                 if mod.R2 > R2:
@@ -200,4 +199,4 @@ def validate_model(dataset, model):
         (float) An R2 value
     '''
 
-    return model.R2_test_d
+    return model.R2_test_data
