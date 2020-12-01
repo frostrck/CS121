@@ -16,7 +16,10 @@ def sum_cubes(n):
     comprehensions.
     """
 
-    pass
+    if n==1:
+        return 1
+    elif n >= 1:
+        return n ** 3 + sum_cubes(n - 1)
 
 
 def sublists(lst):
@@ -30,7 +33,19 @@ def sublists(lst):
         sublists of lst.
     """
 
-    pass
+    if lst == []:
+        return [[]]
+
+    sub = []
+    first = lst[0]
+    small_sub = sublists(lst[1:])
+    sub = sub + small_sub
+
+    for item in small_sub:
+        sub.append([first] + item)
+    
+    return sub
+
 
 
 def min_depth_leaf(tree):
@@ -44,8 +59,12 @@ def min_depth_leaf(tree):
     Returns: (integer) the minimum depth of of a leaf
         in tree.
     """
-
-    pass
+    
+    depth = 0
+    
+    for child in tree.children():
+        if 
+    
 
 
 def repeated_value(tree):
