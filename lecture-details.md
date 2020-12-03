@@ -55,9 +55,17 @@
 | 5.4 - Working with Arrays                         |        72 |                  1 |                    1 |       |
 | 5.5 - Advanced Array Manipulations                |       100 |                  1 |                    1 |       |
 | 5.6 - Extended Example: Standardizing Features    |       100 |                  1 |                    1 |       |
-| **TOTAL**                                         |           |                 59 |                   61 |       |
+| 6.0 - Overview of Module M6                       |         0 |                    |                      |       |
+| 6.1 - Meet the Instructor                         |         0 |                    |                      |       |
+| 6a.1 - Introduction to Recursion                  |        66 |                  1 |                    1 |       |
+| 6a.2 - Anatomy of a Recursive Function Call       |        45 |                  1 |                    1 |       |
+| 6a.3 - How to Think Recursively                   |        85 |                  1 |                    1 |       |
+| 6a.4 - Binary Search                              |        84 |                  1 |                    1 |       |
+| 6b.1 - Introduction to Trees                      |       100 |                  1 |                    1 |       |
+| 6b.2 - Using Trees                                |       100 |                  1 |                    1 |       |
+| **TOTAL**                                         |           |                 65 |                   67 |       |
 
-You scored 96.72% of the quiz questions correctly.
+You scored 97.01% of the quiz questions correctly.
 
 Since this is above 75%, you earn the full 5 points allocated to the quizzes.
 
