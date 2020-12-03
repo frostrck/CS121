@@ -87,7 +87,9 @@ def repeated_value(tree):
     """
     
     ancestor_values = set()
-    repeated_value_r(tree, ancestor_values)
+    return repeated_value_r(tree, ancestor_values)
+
+    
 
 
 def repeated_value_r(tree, ancestor_values):
@@ -115,13 +117,14 @@ def repeated_value_r(tree, ancestor_values):
             return True
         else:
             return False
-    
-    
+
+    ancestor_values.add(tree.value)
+
     for child in tree.children:
         if child.value in ancestor_values:
             return True
-        ancestor_values.add(tree.value)
-        if repeated_value_r(child, ancestor_values):
+        new_ancestors = ancestor_values.copy()
+        if repeated_value_r(child, new_ancestors):
             return True
 
     return False
