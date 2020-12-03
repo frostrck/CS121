@@ -37,15 +37,16 @@ def sublists(lst):
         return [[]]
 
     sub = []
-    first = lst[0]
+    first = lst[0] 
     small_sub = sublists(lst[1:])
     sub = sub + small_sub
 
     for item in small_sub:
-        sub.append([first] + item)
+        sub.append([first] + item) 
     
     return sub
 
+    
 
 
 def min_depth_leaf(tree):
@@ -60,11 +61,16 @@ def min_depth_leaf(tree):
         in tree.
     """
     
-    depth = 0
+    min_depth = []
+
+    if tree.num_children() == 0:
+        return 0
     
-    for child in tree.children():
-        if 
+    for child in tree.children:
+        min_depth.append(min_depth_leaf(child))
     
+    return min(min_depth) + 1 
+
 
 
 def repeated_value(tree):
@@ -80,7 +86,8 @@ def repeated_value(tree):
     same value.
     """
     
-    pass
+    ancestor_values = set()
+    repeated_value_r(tree, ancestor_values)
 
 
 def repeated_value_r(tree, ancestor_values):
@@ -103,4 +110,26 @@ def repeated_value_r(tree, ancestor_values):
         original tree with the same value.
     """
     
-    pass
+    if tree.num_children() == 0:
+        if tree.value in ancestor_values:
+            return True
+        else:
+            return False
+    
+    
+    for child in tree.children:
+        if child.value in ancestor_values:
+            return True
+        ancestor_values.add(tree.value)
+        if repeated_value_r(child, ancestor_values):
+            return True
+
+    return False
+
+
+
+
+
+
+
+    
