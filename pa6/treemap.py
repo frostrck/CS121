@@ -1,7 +1,7 @@
 '''
 CS 121: PA 6 - Avian Biodiversity Treemap
 
-YOUR NAME HERE
+Corry Ke
 
 Code for constructing a treemap.
 '''
@@ -35,8 +35,15 @@ def compute_internal_values(t):
         t.value)
     '''
 
-    # REPLACE pass WITH YOUR CODE
-    pass
+    if t.num_children() == 0:
+        return t.value
+    
+    else:
+        tot = 0
+        for child in t.children: 
+            tot += compute_internal_values(child)
+        t.value = tot
+        return tot
 
 
 def compute_paths(t, prefix=()):
@@ -59,8 +66,13 @@ def compute_paths(t, prefix=()):
             attribute for all nodes.
     '''
 
-    # REPLACE pass WITH YOUR CODE
-    pass
+    t.path = prefix
+    list_prefix = list(prefix)
+    list_prefix.append(t.key)
+    new_prefix = tuple(list_prefix)
+
+    for child in t.children:
+        compute_paths(child, new_prefix)
 
 
 class Rectangle:
@@ -90,6 +102,49 @@ class Rectangle:
 
     def __repr__(self):
         return str(self)
+    
+
+def calc_distort(row):
+
+    ascpect_ratios = []
+    for rect in row:
+        size = [rect.width, rect.height]
+        ratio = max(size) / min(size)
+        ascpect_ratios.append(ratio)
+    return max(ascpect_ratios)
+
+
+def compute_rectangle_r(children, rect, out):
+    
+    tot = sum([child.value for child in children])
+
+    if len(children) == 0:
+        return
+    
+    distort = float("inf")
+
+    for i, val in enumerate(children):
+        subset = children[:i+1]
+        row_layout, leftover = compute_row(rect, subset, tot)
+        test_row = [row[0] for row in row_layout]
+        current_distort = calc_distort(test_row) 
+        if current_distort < distort: 
+            distort = current_distort
+            continue
+        else:
+            true_subset = children[:i]
+            true_layout, true_leftover = compute_row(rect, true_subset, tot)
+            true_row = [row[0] for row in true_layout]
+            for j, rect in enumerate(true_row):
+                rect.label = true_layout[j][1].key
+            out.extend(true_row)
+            compute_rectangle_r(children[i:], true_leftover, out)
+            return
+
+    for j, rect in enumerate(test_row):
+        rect.label = row_layout[j][1].key
+
+    out.extend(test_row)
 
 
 def compute_rectangles(t, bounding_rec_width=1.0, bounding_rec_height=1.0):
@@ -103,9 +158,11 @@ def compute_rectangles(t, bounding_rec_width=1.0, bounding_rec_height=1.0):
 
     Returns: a list of Rectangle objects.
     '''
-
-    # REPLACE pass WITH YOUR CODE
-    pass
+    sorted_children = sorted_trees(t.children)
+    rv = []
+    rectangle = Rectangle((0.0, 0.0), (bounding_rec_width, bounding_rec_height))
+    compute_rectangle_r(sorted_children, rectangle, rv)
+    return rv
 
 
 #############################
