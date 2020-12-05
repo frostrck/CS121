@@ -105,16 +105,42 @@ class Rectangle:
     
 
 def calc_distort(row):
+    '''
+    Calculate the distortion of a given row.
+
+    Input:
+        row: (list) list of Rectangles in the row
+    
+    Returns:
+        (float) distortion of the row
+    '''
 
     ascpect_ratios = []
+
     for rect in row:
         size = [rect.width, rect.height]
         ratio = max(size) / min(size)
         ascpect_ratios.append(ratio)
+
     return max(ascpect_ratios)
 
 
-def compute_rectangle_r(children, rect, out):
+def compute_rectangles_r(children, rect, final):
+    '''
+    A recursive helper function that takes in a sorted list of children,
+    putting them into rows/columns, and checks if the distortion 
+    has improived.
+
+    Input:
+        children: (list) a sorted list of children of a node
+        rect: (Rectangle) the bounding rectangle
+        final: (list) a list of optimal Rectangle objects that we 
+        modify and keep tract of as we recursively call this function 
+        origin: (tuple) the origin of our bounding rectangle
+    
+    Returns:
+        None
+    '''
     
     tot = sum([child.value for child in children])
 
@@ -123,28 +149,44 @@ def compute_rectangle_r(children, rect, out):
     
     distort = float("inf")
 
-    for i, val in enumerate(children):
+    for i in range(0, len(children)):
         subset = children[:i+1]
         row_layout, leftover = compute_row(rect, subset, tot)
         test_row = [row[0] for row in row_layout]
         current_distort = calc_distort(test_row) 
+
         if current_distort < distort: 
             distort = current_distort
             continue
+
         else:
-            true_subset = children[:i]
-            true_layout, true_leftover = compute_row(rect, true_subset, tot)
-            true_row = [row[0] for row in true_layout]
-            for j, rect in enumerate(true_row):
-                rect.label = true_layout[j][1].key
-            out.extend(true_row)
-            compute_rectangle_r(children[i:], true_leftover, out)
+            better_subset = children[:i]
+            better_layout, better_leftover = compute_row(rect, better_subset, tot)
+            better_row = [row[0] for row in better_layout]
+            for j, rect in enumerate(better_row):
+                rect.label = better_layout[j][1].key
+            final.extend(better_row)
+            compute_rectangles_r(children[i:], better_leftover, final)
             return
 
     for j, rect in enumerate(test_row):
         rect.label = row_layout[j][1].key
 
-    out.extend(test_row)
+    final.extend(test_row)
+
+def halp(node, bound):
+    rv = []
+    if len(node.children) == 0:
+        return [bound]
+    else:
+        match = []
+        rects = compute_rectangles(node, bound.width, bound.height)
+        rv.extend(rects)
+        for i, rect in rects:
+            match.append((node.children[i], rect))
+        for child in match:
+            halp(child[0], child[1])
+    return rv
 
 
 def compute_rectangles(t, bounding_rec_width=1.0, bounding_rec_height=1.0):
@@ -158,10 +200,33 @@ def compute_rectangles(t, bounding_rec_width=1.0, bounding_rec_height=1.0):
 
     Returns: a list of Rectangle objects.
     '''
+    compute_internal_values(t)
+    compute_paths(t)
+
     sorted_children = sorted_trees(t.children)
     rv = []
-    rectangle = Rectangle((0.0, 0.0), (bounding_rec_width, bounding_rec_height))
-    compute_rectangle_r(sorted_children, rectangle, rv)
+    layer = 0
+    if layer == 0:
+        origin = (0.0, 0.0)
+
+
+    rectangle = Rectangle(origin, (bounding_rec_width, bounding_rec_height), t.key, t.path)
+    compute_rectangles_r(sorted_children, rectangle, rv)
+
+    # layer += 1
+
+
+    # for i, child in enumerate(sorted_children):
+    #     if len(child.children) != 0:
+    #         grandchildren = sorted_trees(child.children)
+    #         rect = rv[i]
+    #         sub_row = []
+    #         compute_rectangles_r(grandchildren, rect, sub_row)
+    #         rv.extend(sub_row)
+    #         origin = (rect.x, rect.y)
+    #         width, height = rect.width, rect.height
+    #         compute_rectangles(child, width, height)
+
     return rv
 
 
