@@ -134,7 +134,7 @@ def compute_rectangles_r(children, rect, final):
     Input:
         children: (list) a sorted list of children of a node
         rect: (Rectangle) the bounding rectangle
-        final: (list) a list of optimal Rectangle objects that we 
+        final: (dict) a dictionary of optimal Rectangle objects that we 
         modify and keep tract of as we recursively call this function 
         origin: (tuple) the origin of our bounding rectangle
     
@@ -151,9 +151,9 @@ def compute_rectangles_r(children, rect, final):
 
     for i in range(0, len(children)):
         subset = children[:i+1]
-        row_layout, leftover = compute_row(rect, subset, tot)
-        test_row = [row[0] for row in row_layout]
-        current_distort = calc_distort(test_row) 
+        row_layout = compute_row(rect, subset, tot)[0]
+        rect_row = [row[0] for row in row_layout]
+        current_distort = calc_distort(rect_row) 
 
         if current_distort < distort: 
             distort = current_distort
@@ -162,31 +162,27 @@ def compute_rectangles_r(children, rect, final):
         else:
             better_subset = children[:i]
             better_layout, better_leftover = compute_row(rect, better_subset, tot)
-            better_row = [row[0] for row in better_layout]
-            for j, rect in enumerate(better_row):
-                rect.label = better_layout[j][1].key
-            final.extend(better_row)
+            rect_row = [row[0] for row in better_layout]
             compute_rectangles_r(children[i:], better_leftover, final)
-            return
+            break
 
-    for j, rect in enumerate(test_row):
+    for j, rect in enumerate(rect_row):
         rect.label = row_layout[j][1].key
+        rect.color_code = row_layout[j][1].path
+        final.append((row_layout[j][1], rect))
 
-    final.extend(test_row)
 
-def halp(node, bound):
+def compute_layer(node, bound):
     rv = []
     if len(node.children) == 0:
         return [bound]
     else:
+        sorted_children = sorted_trees(node.children)
         match = []
-        rects = compute_rectangles(node, bound.width, bound.height)
-        rv.extend(rects)
-        for i, rect in rects:
-            match.append((node.children[i], rect))
-        for child in match:
-            halp(child[0], child[1])
-    return rv
+        compute_rectangles_r(sorted_children, bound, match)
+        for child, rect in match:
+            rv.extend(compute_layer(child, rect))
+        return rv
 
 
 def compute_rectangles(t, bounding_rec_width=1.0, bounding_rec_height=1.0):
@@ -203,31 +199,9 @@ def compute_rectangles(t, bounding_rec_width=1.0, bounding_rec_height=1.0):
     compute_internal_values(t)
     compute_paths(t)
 
-    sorted_children = sorted_trees(t.children)
-    rv = []
-    layer = 0
-    if layer == 0:
-        origin = (0.0, 0.0)
+    rectangle = Rectangle((0.0, 0.0), (bounding_rec_width, bounding_rec_height), t.key, t.path)
 
-
-    rectangle = Rectangle(origin, (bounding_rec_width, bounding_rec_height), t.key, t.path)
-    compute_rectangles_r(sorted_children, rectangle, rv)
-
-    # layer += 1
-
-
-    # for i, child in enumerate(sorted_children):
-    #     if len(child.children) != 0:
-    #         grandchildren = sorted_trees(child.children)
-    #         rect = rv[i]
-    #         sub_row = []
-    #         compute_rectangles_r(grandchildren, rect, sub_row)
-    #         rv.extend(sub_row)
-    #         origin = (rect.x, rect.y)
-    #         width, height = rect.width, rect.height
-    #         compute_rectangles(child, width, height)
-
-    return rv
+    return compute_layer(t, rectangle)
 
 
 #############################
