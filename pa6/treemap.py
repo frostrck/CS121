@@ -134,9 +134,8 @@ def compute_rectangles_r(children, rect, final):
     Input:
         children: (list) a sorted list of children of a node
         rect: (Rectangle) the bounding rectangle
-        final: (dict) a dictionary of optimal Rectangle objects that we 
+        final: (list) a list of optimal Rectangle objects that we 
         modify and keep tract of as we recursively call this function 
-        origin: (tuple) the origin of our bounding rectangle
     
     Returns:
         None
@@ -173,6 +172,17 @@ def compute_rectangles_r(children, rect, final):
 
 
 def compute_layer(node, bound):
+    '''
+    A recursive helper function that computes the 
+    optimal rectagle layout for each node (and its children)
+
+    Inputs:
+        node: (tree)
+        bound: (Rectangle) bounding rectangle
+    
+    Returns:
+        a list of rectangles
+    '''
     rv = []
     if len(node.children) == 0:
         return [bound]
