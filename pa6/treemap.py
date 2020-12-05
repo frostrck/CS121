@@ -177,11 +177,11 @@ def compute_layer(node, bound):
     optimal rectagle layout for each node (and its children)
 
     Inputs:
-        node: (tree)
-        bound: (Rectangle) bounding rectangle
+        node: (tree) a tree node
+        bound: (Rectangle) the bounding rectangle
     
     Returns:
-        a list of rectangles
+        (list) a list of rectangles
     '''
     rv = []
     if len(node.children) == 0:
